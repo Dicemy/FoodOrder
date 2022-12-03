@@ -9,6 +9,11 @@ spring:
       url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: MdbPp020818
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  #    password: root@123456
   mail:
     default-encoding: utf-8
     host: smtp.qq.com
