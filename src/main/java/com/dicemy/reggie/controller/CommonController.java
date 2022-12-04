@@ -58,6 +58,7 @@ public class CommonController {
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
         try {
+            log.info("请求下载地址为"+basePath + name);
             FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
             ServletOutputStream outputStream = response.getOutputStream();
             response.setContentType("image/jpeg");

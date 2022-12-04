@@ -41,6 +41,7 @@ mybatis-plus:
 
 
 reggie:
-  path: /Users/tobinmeng/Desktop/截图/
+#  path: /Users/tobinmeng/Desktop/截图/
+  path: D:\Code\JAVA\截图\
 
 
