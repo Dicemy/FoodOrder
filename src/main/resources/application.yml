@@ -14,6 +14,9 @@ spring:
     port: 6379
     database: 0
   #    password: root@123456
+  cache:
+    redis:
+      time-to-live: 1800000 #缓存过期时间
   mail:
     default-encoding: utf-8
     host: smtp.qq.com

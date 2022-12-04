@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,6 +69,7 @@ public class SetmealController {
      * @param setmealDto
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PostMapping
     public R<String> save(@RequestBody SetmealDto setmealDto) {
         setmealService.saveWithDish(setmealDto);
@@ -84,6 +87,12 @@ public class SetmealController {
         return R.success(setmealDto);
     }
 
+    /**
+     * 修改套餐
+     * @param setmealDto
+     * @return
+     */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PutMapping
     public R<String> update(@RequestBody SetmealDto setmealDto) {
         setmealService.updateByIdWithDishes(setmealDto);
@@ -95,6 +104,7 @@ public class SetmealController {
      * @param ids
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @DeleteMapping
     public R<String> delete(Long[] ids) {
         setmealService.removeByIdWithDishes(ids);
@@ -107,13 +117,20 @@ public class SetmealController {
      * @param ids
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PostMapping("/status/{status}")
     public R<String> updateStatus(@PathVariable int status, Long[] ids) {
         setmealService.updateStatus(status, ids);
         return R.success("状态修改成功");
     }
 
-
+    /**
+     * 获取套餐信息
+     * @param categoryId
+     * @param status
+     * @return
+     */
+    @Cacheable(value = "setmealCache", key = "#categoryId + '_' + #status")
     @GetMapping("/list")
     public R<List<Setmeal>> list(Long categoryId, int status) {
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
