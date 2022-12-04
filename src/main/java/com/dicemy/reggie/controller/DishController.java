@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -47,8 +48,8 @@ public class DishController {
      */
     @PostMapping
     public R<String> save(@RequestBody DishDto dishDto) {
-        String key = "dish_" + dishDto.getCategoryName() + "_1";
-        redisTemplate.delete(key);
+        Set keys = redisTemplate.keys("dish_*");
+        redisTemplate.delete(keys);
         dishService.saveWithFlavor(dishDto);
         return R.success("保存成功");
     }
@@ -103,8 +104,8 @@ public class DishController {
      */
     @PutMapping()
     public R<String> update(@RequestBody DishDto dishDto) {
-        String key = "dish_" + dishDto.getCategoryName() + "_1";
-        redisTemplate.delete(key);
+        Set keys = redisTemplate.keys("dish_*");
+        redisTemplate.delete(keys);
 
         dishService.updateByIdWithFlavor(dishDto);
         return R.success("修改成功");
@@ -117,15 +118,8 @@ public class DishController {
      */
     @DeleteMapping
     public R<String> delete(Long[] ids) {
-        DishDto dishDto = null;
-        String key = null;
-        for (Long id : ids) {
-            dishDto = dishService.getByIdWithFlavor(id);
-            key = "dish_" + dishDto.getCategoryName() + "_1";
-            if (redisTemplate.hasKey(key)) {
-                redisTemplate.delete(key);
-            }
-        }
+        Set keys = redisTemplate.keys("dish_*");
+        redisTemplate.delete(keys);
         dishService.removeByIdWithFlavor(ids);
         return R.success("删除成功");
     }
@@ -139,15 +133,8 @@ public class DishController {
     @PostMapping("/status/{status}")
     public R<String> updateStatus(@PathVariable int status, Long[] ids) {
 //        log.info(ids.toString());
-        DishDto dishDto = null;
-        String key = null;
-        for (Long id : ids) {
-            dishDto = dishService.getByIdWithFlavor(id);
-            key = "dish_" + dishDto.getCategoryName() + "_1";
-            if (redisTemplate.hasKey(key)) {
-                redisTemplate.delete(key);
-            }
-        }
+        Set keys = redisTemplate.keys("dish_*");
+        redisTemplate.delete(keys);
         dishService.updateStatus(status, ids);
         return R.success("状态修改成功");
     }
@@ -165,7 +152,7 @@ public class DishController {
     @GetMapping("/list")
     public R<List<DishDto>> list(Dish dish) {
         List<DishDto> dishDtoList = null;
-        String key = "dish" + dish.getCategoryId() + "_" + dish.getStatus();
+        String key = "dish_" + dish.getCategoryId() + "_" + dish.getStatus();
         dishDtoList = (List<DishDto>) redisTemplate.opsForValue().get(key);
         if(dishDtoList != null) {
             return R.success(dishDtoList);
