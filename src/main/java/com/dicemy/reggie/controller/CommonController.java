@@ -22,6 +22,7 @@ import java.util.UUID;
 @Slf4j
 public class CommonController {
 
+    //@Value是用来从Properties文件中来获取值进行注入或者直接注入String
     @Value("${reggie.path}")
     private String basePath;
 

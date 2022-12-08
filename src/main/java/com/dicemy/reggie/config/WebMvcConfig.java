@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import java.util.List;
 
+//在WebMvcConfigurationSupport中addResourceHandlers和extendMessageConverters都是空方法，但是有@Bean调用这两个方法
 @Slf4j
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {

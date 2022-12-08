@@ -68,6 +68,7 @@ public class AddressBook implements Serializable {
     private Integer isDefault;
 
     //创建时间
+    //@TableField该注解配合MyBatis-Plus进行属性值的自动填充
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * 自定义元数据对象处理器
+ * 进行MyBatis-Plus中字段的自动填充，实现MetaObjectHandler 接口即可
  */
 @Component
 @Slf4j

@@ -16,6 +16,10 @@ import java.io.IOException;
 /**
  * 检查用户是否已经完成登录
  */
+
+/*
+ *@WebFilter注解声明了一个过滤器，该类相当于SpringMVC中的过滤器
+ */
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
 @Slf4j
 public class LoginCheckFilter implements Filter {
