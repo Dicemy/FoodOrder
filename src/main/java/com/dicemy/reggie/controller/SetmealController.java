@@ -69,6 +69,8 @@ public class SetmealController {
      * @param setmealDto
      * @return
      */
+    //@CacheEvict注解实现缓存的删除，allEntries = true表示将名字为setmealCache的缓存中的全部内容都进行删除，
+    //删除会在该注解注解的方法执行后进行
     @CacheEvict(value = "setmealCache", allEntries = true)
     @PostMapping
     public R<String> save(@RequestBody SetmealDto setmealDto) {
@@ -130,6 +132,7 @@ public class SetmealController {
      * @param status
      * @return
      */
+    //@Cacheable将名字为value的缓存体重缓存了一个自定义key，值为return值的kv对，在下次查询时，若key在缓存体中可以查到，那么就直接返回该kv对中的value
     @Cacheable(value = "setmealCache", key = "#categoryId + '_' + #status")
     @GetMapping("/list")
     public R<List<Setmeal>> list(Long categoryId, int status) {

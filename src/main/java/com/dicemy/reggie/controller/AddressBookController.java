@@ -14,10 +14,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+ *@RestController = @Controller + @ResponseBody
+ * @Controller注解是定义了一个满足SpringMVC Controller的Bean，@ResponseBody表示将Controller方法中的return的对象序列化后返回一个字符串
+ * 在配置中加入了JacksonObjectMapper序列化器，这个序列化器可以将Java对象转化成json格式。所以@ResponseBody返回的是一个json格式的字符串
+ */
+
+/*
+ *@RequestMapping注解定义了该控制器可以处理哪些URL请求。相当于Servlet中在web.xml中配置
+ */
 @RestController
 @RequestMapping("/addressBook")
 @Slf4j
 public class AddressBookController {
+    //@Autowired实现bean的自动装配
     @Autowired
     private AddressBookService addressBookService;
 
@@ -26,11 +36,12 @@ public class AddressBookController {
      * @param addressBook
      * @return
      */
+    //@RequestBody用来接收前端传递给后端的json字符串中的数据
     @PostMapping
     public R<AddressBook> save(@RequestBody AddressBook addressBook) {
-        addressBook.setUserId(BaseContext.getCurrentId());
-        addressBookService.save(addressBook);
-        return R.success(addressBook);
+            addressBook.setUserId(BaseContext.getCurrentId());
+            addressBookService.save(addressBook);
+            return R.success(addressBook);
     }
 
     /**
@@ -38,6 +49,7 @@ public class AddressBookController {
      * @param addressBook
      * @return
      */
+    //@Transactional启动事务控制，使用AOP对方法前后进行拦截。
     @PutMapping("/default")
     @Transactional
     public R<AddressBook> setDefault(@RequestBody AddressBook addressBook) {

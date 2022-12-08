@@ -11,6 +11,7 @@ import java.util.Map;
  * @param <T>
  */
 
+//@Data提供了get和set方法lombok的注解
 @Data
 public class R<T> implements Serializable {
 
